@@ -73,5 +73,64 @@
     <script src="assets/js/hoverable-collapse.js"></script>
     <script src="assets/js/misc.js"></script>
     <!-- endinject -->
+
+    <!-- login based function -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Add an event listener to the form
+    const loginForm = document.querySelector('.pt-3');
+
+    loginForm.addEventListener('submit', function (event) {
+      // Prevent the default form submission behavior
+      event.preventDefault();
+
+      // Collect user input
+      const username = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+      // Create an object with user credentials
+      const credentials = {
+        name: username,
+        password: password,
+      };
+
+      // Send a request to the back-end using the fetch API
+      fetch('your-backend-url/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      })
+        .then(response => {
+          // Check if the response status is OK (200-299 range)
+          if (!response.ok) {
+            throw new Error('Authentication failed');
+          }
+          // If successful, you might handle the response here
+          return response.json();
+        })
+        .then(data => {
+          // Handle the successful response data
+          console.log('Authentication successful:', data);
+
+          // Assuming the server sends a token in the response
+          const token = data.token;
+
+          // Store the token securely on the client-side (e.g., in localStorage)
+          localStorage.setItem('authToken', token);
+
+          // Redirect to the dashboard page
+          window.location.href = 'dashboard.html'; // Replace with your dashboard page URL
+        })
+        .catch(error => {
+          // Handle errors, such as authentication failure
+          console.error('Authentication error:', error);
+          // Optionally display an error message to the user
+        });
+    });
+  });
+</script>
+
   </body>
 </html>
