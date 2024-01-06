@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pain care</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left p-5">
+                <div class="brand-logo">
+                  <img src="assets/images/logo.svg">
+                </div>
+                <form id="pain-form" action="" method="POST"></form>>
+                <h3>Track Pain</h3>
+                <h6 class="font-weight-light">Submit you pain. It only takes a few steps</h6>
+                <br>
+                <!-- Pain Level -->
+                <div class="mb-3">
+                    <label for="pain">Pain Level : <span id="pain_label">😐 (0)</span></label>
+                    <input name="level" type="range" class="form-range pain " min="0" max="10" value="0" id="pain" oninput="updateEmoji()">
+                </div>
+                <br>
+                
+                <!-- Pain Locations -->
+                <div class="pain-field">
+                    <input type="hidden" name="locations" />
+                    <h5 class="card-title" >Pain Locations :</h5>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl1"> Abdomen
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl2"> Back
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl3"> Chest
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl4"> Head
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl5"> Neck
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pl6"> Hips
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <!-- Symptoms -->
+                <div class="pain-field">
+                    <input type="hidden" name="symptoms" />
+                    <h5 class="card-title">Symptoms :</h5>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym1"> Cramps
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym2"> Tender breasts
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym3"> Headache
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym4"> Acne
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym5"> Fatigue
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym6"> Bloating
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="sym7"> Craving
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <!-- What makes pain worse -->
+                <div class="pain-field">
+                    <input type="hidden" name="worse_pain" />
+                    <h5 class="card-title">What makes pain worse :</h5>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw1"> Lack of sleep
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw2"> Sitting
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw3"> Standing
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw4"> Stress
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw5"> Walking
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw6"> Exercise
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="pw7"> Urination
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <!-- Feelings -->
+                <div class="pain-field">
+                    <input type="hidden" name="feelings" />
+                    <h5 class="card-title">Feelings :</h5>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="fl1"> Anxious
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="fl2"> Depressed
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="fl3"> Dizzy
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="fl4"> Vomiting
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="fl5"> Diarrhea
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-gradient-primary mb-2" >Submit</button>
+            </form>
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script>
+        function updateEmoji() {
+            var painLevel = document.getElementById("pain").value;
+            var emoji = getEmoji(painLevel);
+            document.getElementById("pain_label").innerText = emoji + " (" + painLevel + ")";
+            document.getElementById("pain-emoji").innerText = emoji;
+        }
+        function getEmoji(painLevel) {
+        if (painLevel <= 2) {
+            return "😐";
+        } else if (painLevel <= 5) {
+            return "😕"; 
+        } else if (painLevel <= 8) {
+            return "😣"; 
+        } else {
+            return "😫"; 
+        }
+    }
+    const form = document.getElementById("pain-form");
+
+    form.addEventListener("submit", () => {
+        const painFields = document.querySelectorAll(".pain-field");
+        var painLevel = document.getElementById("pain").value;
+        // Use Fetch API to send a POST request to the server
+        fetch('/submitPainLevel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ painLevel: painLevel }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Handle successful response
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            // You can handle the response data as needed
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle errors
+        });
+        painFields.forEach(painField => {
+            const hiddenInput = painField.querySelector("input[type='hidden']");
+            const inputs = painField.querySelectorAll("input[type='checkbox']");
+            let values = [];
+
+            inputs.forEach((input, index) => {
+                if(input.checked) values.push(index);
+            });
+
+            hiddenInput.value = values.join(",");
+        });
+    });
+    </script>
+  </body>
+</html>

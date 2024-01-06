@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Questions</title>
+     <!-- plugins:css -->
+     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+     <!-- endinject -->
+     <!-- Plugin css for this page -->
+     <!-- End plugin css for this page -->
+     <!-- inject:css -->
+     <!-- endinject -->
+     <!-- Layout styles -->
+     <link rel="stylesheet" href="assets/css/style.css">
+     <!-- End layout styles -->
+     <link rel="shortcut icon" href="assets/images/favicon.ico" />
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+          <div class="content-wrapper d-flex align-items-center auth">
+            <div class="row flex-grow">
+              <div class="col-lg-8 mx-auto">
+                <div class="auth-form-light text-left p-5">
+                  <div class="brand-logo">
+                    <img src="assets/images/logo.svg">
+                  </div>
+                  <form id="pain-form" action="" method="POST"></form>
+                  <h3 id="testDiag">Diagnostic test</h3>
+                  <div id="question-container" class="card-body">
+                    <!-- Current question will be dynamically loaded here -->
+                </div>
+                <button id="nextButton" class="btn btn-gradient-primary mb-2" onclick="nextQuestion()">Next</button>
+                <div id="summary-container" style="display: none;">
+                    <!-- Summary will be displayed here -->
+                </div>
+              </form>
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+      </div>
+
+
+<script>
+    var userAnswers = [];
+    var currentQuestionIndex = 0;
+
+    var questions = [
+        {
+            text: "How often do you exercise?",
+            choices: ["Rarely", "Occasionally", "Regularly"]
+        },
+        {
+            text: "Do you have any dietary restrictions?",
+            choices: ["Vegetarian", "Vegan", "Gluten-Free", "No Restrictions"]
+        },
+        {
+            text: "How many hours of sleep do you get per night?",
+            choices: ["Less than 6", "6-8", "More than 8"]
+        }
+        // Add more questions as needed
+    ];
+
+    function loadCurrentQuestion() {
+        var container = document.getElementById("question-container");
+        container.innerHTML = ""; // Clear existing content
+
+        var questionDiv = document.createElement("div");
+        var questionText = document.createTextNode(questions[currentQuestionIndex].text);
+        questionDiv.className = "form-group";
+        questionDiv.appendChild(questionText);
+
+
+        for (var j = 0; j < questions[currentQuestionIndex].choices.length; j++) {
+            var answerDev = document.createElement("div");
+            var choiceText = document.createTextNode(questions[currentQuestionIndex].choices[j]);
+            answerDev.className = "form-check";
+            var answerlabel = document.createElement("label");
+            answerlabel.className = "form-check-label";
+            var input = document.createElement("input");
+            input.type = "radio";
+            input.className = "form-check-input";
+            input.name = "answer";
+            input.value = j; // Assign an index to each choice
+            answerlabel.appendChild(choiceText);
+            answerDev.appendChild(input);
+            answerDev.appendChild(answerlabel);
+            questionDiv.appendChild(answerDev);
+        }
+
+        container.appendChild(questionDiv);
+    }
+
+    function nextQuestion() {
+        var selectedChoice = document.querySelector('input[name="answer"]:checked');
+        if (selectedChoice) {
+            userAnswers.push(selectedChoice.value);
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadCurrentQuestion();
+            } else {
+                sendToServlet(userAnswers.join(","));
+                showSummary();
+            }
+        } else {
+            alert("Please select an answer before proceeding.");
+        }
+    }
+    function sendToServlet(data) {
+        var url = 'https://your-backend-url/your-servlet-path'; // Replace with your backend URL and servlet path
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'userAnswers=' + encodeURIComponent(data),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(responseText => {
+            console.log('Data sent successfully:', responseText);
+        })
+        .catch(error => {
+            console.error('Failed to send data. Error:', error);
+        });
+    }
+    function showSummary() {
+        // Hide the question container
+        document.getElementById("nextButton").style.display = "none";
+        document.getElementById("testDiag").style.display = "none";
+        document.getElementById("question-container").style.display = "none";
+        // Show the summary container
+        document.getElementById("summary-container").style.display = "block";
+
+        // Create summary content
+        var summaryContainer = document.getElementById("summary-container");
+        summaryContainer.innerHTML = "<h2>Test Summary</h2>";
+
+        for (var i = 0; i < questions.length; i++) {
+            var questionText = questions[i].text;
+            var userAnswer = userAnswers[i];
+            var choiceText = questions[i].choices[userAnswer];
+
+            var summaryItem = document.createElement("p");
+            summaryItem.textContent = "Q: " + questionText + " | A: " + choiceText;
+
+            summaryContainer.appendChild(summaryItem);
+        }
+    }
+
+    window.onload = function () {
+        loadCurrentQuestion();
+    };
+</script>
+ <!-- plugins:js -->
+ <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+ <!-- endinject -->
+ <!-- Plugin js for this page -->
+ <script src="assets/vendors/chart.js/Chart.min.js"></script>
+ <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+ <!-- End plugin js for this page -->
+ <!-- inject:js -->
+ <script src="assets/js/off-canvas.js"></script>
+ <script src="assets/js/hoverable-collapse.js"></script>
+ <script src="assets/js/misc.js"></script>
+ <!-- endinject -->
+ <!-- Custom js for this page -->
+ <script src="assets/js/dashboard.js"></script>
+ <script src="assets/js/todolist.js"></script>
+ <!-- End custom js for this page -->
+</body>
+</html>
