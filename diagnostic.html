@@ -115,20 +115,26 @@
         }
     }
     function sendToServlet(data) {
-        var url = 'https://your-backend-url/your-servlet-path'; // Replace with your backend URL and servlet path
+        var url = 'http://localhost:8080/PainCare/diagnostic'; // Replace with your backend URL and servlet path
 
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: 'userAnswers=' + encodeURIComponent(data),
+            body:  data,
         })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.text();
+        })
+        .then(diagnosticResult => {
+            console.log('Server Message:', diagnosticResult);
+
+            // Call the showSummary function with the received server message
+            showSummary(diagnosticResult);
         })
         .then(responseText => {
             console.log('Data sent successfully:', responseText);
@@ -137,28 +143,41 @@
             console.error('Failed to send data. Error:', error);
         });
     }
-    function showSummary() {
-        // Hide the question container
-        document.getElementById("nextButton").style.display = "none";
-        document.getElementById("testDiag").style.display = "none";
-        document.getElementById("question-container").style.display = "none";
-        // Show the summary container
-        document.getElementById("summary-container").style.display = "block";
+    function showSummary(diagnosticResult) {
+    // Hide the question container
+    document.getElementById("nextButton").style.display = "none";
+    document.getElementById("testDiag").style.display = "none";
+    document.getElementById("question-container").style.display = "none";
 
-        // Create summary content
-        var summaryContainer = document.getElementById("summary-container");
-        summaryContainer.innerHTML = "<h2>Test Summary</h2>";
+    // Show the summary container
+    document.getElementById("summary-container").style.display = "block";
 
-        for (var i = 0; i < questions.length; i++) {
-            var questionText = questions[i].text;
-            var userAnswer = userAnswers[i];
-            var choiceText = questions[i].choices[userAnswer];
+    // Create summary content
+    var summaryContainer = document.getElementById("summary-container");
+    summaryContainer.innerHTML = "<h2>Test Summary</h2>";
 
-            var summaryItem = document.createElement("p");
-            summaryItem.textContent = "Q: " + questionText + " | A: " + choiceText;
+    // Declare diagnosticResultItem at the beginning
+    var diagnosticResultItem = document.createElement("p");
+    diagnosticResultItem.textContent = "Diagnostic Result: " + diagnosticResult;
+    summaryContainer.appendChild(diagnosticResultItem);
 
-            summaryContainer.appendChild(summaryItem);
-        }
+    for (var i = 0; i < questions.length; i++) {
+        var questionText = questions[i].text;
+        var userAnswer = userAnswers[i];
+        var choiceText = questions[i].choices[userAnswer];
+
+        var summaryItem = document.createElement("p");
+        summaryItem.textContent = "Q: " + questionText + " | A: " + choiceText;
+
+        // Remove duplicate declaration inside the loop
+        // var diagnosticResultItem = document.createElement("p");
+
+        summaryContainer.appendChild(summaryItem);
+    }
+
+
+        
+       
     }
 
     window.onload = function () {
