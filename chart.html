@@ -28,8 +28,31 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Your information </h3>
-              
+                <h3 class="page-title">
+                  <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-home"></i>
+                  </span> Dashboard
+                </h3>
+                <nav aria-label="breadcrumb">
+                  <ul class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">
+                      <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-10 stretch-card grid-margin">
+                  <div class="card bg-gradient-danger card-img-holder text-white">
+                    <div class="card-body">
+                      <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                      <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                      </h4>
+                      <h2 class="mb-5" id="testResult">Fort</h2>
+                      <h6 class="card-text">Increased by 60%</h6>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div class="row">
               <div class="col-lg-10 grid-margin stretch-card">
@@ -42,6 +65,7 @@
               </div>
              
             </div>
+
           </div>
           <!-- content-wrapper ends -->
           
@@ -85,8 +109,59 @@
                 });
             }
 
-            // Attach click event to the button
-            document.getElementById('requestDataButton').addEventListener('click', requestDataFromServlet);
+            requestDataFromServlet();
+            // Another event listener that uses dataString
+            document.getElementById('useDataStringButton').addEventListener('click', function () {
+                // Use dataString as needed
+                console.log('Using dataString:', dataString);
+
+                // For example, update another chart or perform other actions with dataString
+            });
+
+            // Function to request test data from the Servlet and update the sales card
+            function requestTestFromServlet() {
+                const authToken = localStorage.getItem('authToken');
+
+                fetch('YourTestServletURL', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + authToken,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(testData => {
+                    console.log('Test data received from Backend:', testData);
+
+                    // Call the function to update the sales card based on the fetched test data
+                    updateSalesCard(testData.result); // Assuming the property name is 'result'
+                })
+                .catch(error => {
+                    console.error('Error requesting test data from Backend:', error);
+                });
+            }
+
+            // Call the function to request test data and update the sales card
+            requestTestFromServlet();
+
+            // Function to update the sales card based on the fetched data
+            function updateSalesCard(fetchStatus) {
+                // Select the sales card element
+                const salesCard = document.querySelector('.card.bg-gradient-danger.card-img-holder.text-white');
+
+                // Update the card based on the fetched data status
+                if (fetchStatus === 'faible') {
+                    salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-success');
+                    document.getElementById('testResult').innerText = 'faible';
+                } else if (fetchStatus === 'fort') {
+                    salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-success');
+                    document.getElementById('testResult').innerText = 'fort';
+                } else if (fetchStatus === 'moyen') {
+                    salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-info');
+                    document.getElementById('testResult').innerText = 'moyen';
+                }
+            }
+            
         });
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -112,7 +187,7 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1,
-                    data: [5, 8, 3, 6, 9, 4, 7], //3wwd hadi b data dyalk li khditiha mn backend
+                    data: [5, 8, 3, 10, 9, 4, 7], //3wwd hadi b data dyalk li khditiha mn backend
                 }]
             };
 
@@ -130,8 +205,9 @@
             var ctx = document.getElementById('lineChart').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
+                options: options,
                 data: data,
-                options: options
+                
             });
         });
 
