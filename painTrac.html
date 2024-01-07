@@ -40,7 +40,7 @@
                 <br>
                 
                 <!-- Pain Locations -->
-                <div class="pain-field">
+                <div class="pain-field" id="locations">
                     <input type="hidden" name="locations" />
                     <h5 class="card-title" >Pain Locations :</h5>
                     <div class="form-check">
@@ -76,7 +76,7 @@
                 </div>
                 <br>
                 <!-- Symptoms -->
-                <div class="pain-field">
+                <div class="pain-field" id="symptoms">
                     <input type="hidden" name="symptoms" />
                     <h5 class="card-title">Symptoms :</h5>
                     <div class="form-check">
@@ -117,7 +117,7 @@
                 </div>
                 <br>
                 <!-- What makes pain worse -->
-                <div class="pain-field">
+                <div class="pain-field" id="worse_pain">
                     <input type="hidden" name="worse_pain" />
                     <h5 class="card-title">What makes pain worse :</h5>
                     <div class="form-check">
@@ -158,7 +158,7 @@
                 </div>
                 <br>
                 <!-- Feelings -->
-                <div class="pain-field">
+                <div class="pain-field" id="feelings">
                     <input type="hidden" name="feelings" />
                     <h5 class="card-title">Feelings :</h5>
                     <div class="form-check">
@@ -231,28 +231,34 @@
     }
     const form = document.getElementById("pain-form");
     function getCheckedValues(className, fieldName) {
-            var checkboxes = document.querySelectorAll('.' + className + ' input[type="checkbox"]:checked');
-            var values = [];
+        var checkboxes = document.querySelectorAll('#' + className + ' input[type="checkbox"]:checked');
+        var values = [];
 
-            checkboxes.forEach(function (checkbox) {
-                values.push(checkbox.id);
-            });
+        checkboxes.forEach(function (checkbox) {
+            values.push(checkbox.id);
+        });
 
-            // Store values in a hidden input field with the specified name
-            document.querySelector('input[name="' + fieldName + '"]').value = JSON.stringify(values);
+        // Store values in a hidden input field with the specified name
+        var hiddenInput = document.querySelector('input[name="' + fieldName + '"]');
+        hiddenInput.value = JSON.stringify(values);
 
-            return values;
-        }
+        // If you want to keep the square brackets in the hidden input
+        // hiddenInput.value = JSON.stringify(values);
+
+        return values;
+    }
+
+
     form.addEventListener("submit", () => {
         event.preventDefault();
         
         const painFields = document.querySelectorAll(".pain-field");
         var painLevel = document.getElementById("pain").value;
         // Get values from various form elements
-        var painLocations = getCheckedValues('pain-field', 'locations');
-        var symptoms = getCheckedValues('pain-field', 'symptoms');
-        var worsePain = getCheckedValues('pain-field', 'worse_pain');
-        var feelings = getCheckedValues('pain-field', 'feelings');
+        var painLocations = getCheckedValues('locations', 'locations');
+        var symptoms = getCheckedValues('symptoms', 'symptoms');
+        var worsePain = getCheckedValues('worse_pain', 'worse_pain');
+        var feelings = getCheckedValues('feelings', 'feelings');
 
         // Create formData object
         var formData = {
