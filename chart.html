@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Purple Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End Plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Your information </h3>
+              
+            </div>
+            <div class="row">
+              <div class="col-lg-10 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pain chart</h4>
+                    <canvas id="lineChart" style="height:250px"></canvas>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to request data from the Servlet
+            function requestDataFromServlet() {
+                const authToken = localStorage.getItem('authToken');
+
+                fetch('/YourBackendServletURL', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + authToken,
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data received from Backend:', data);
+                    const dataString = JSON.stringify(data);
+                    console.log('Data as string:', dataString);
+                    // Here, you can update the chart or perform other actions with the received data
+                })
+                .catch(error => {
+                    console.error('Error requesting data from Backend:', error);
+                });
+            }
+
+            // Attach click event to the button
+            document.getElementById('requestDataButton').addEventListener('click', requestDataFromServlet);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sample data for the chart
+            var data = {
+                labels: ["test1", "test2", "test3", "test4", "test5", "test6", "test7"],
+                datasets: [{
+                    label: 'Pain Level',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    data: [5, 8, 3, 6, 9, 4, 7], //3wwd hadi b data dyalk li khditiha mn backend
+                }]
+            };
+
+            // Configuration options
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10, // Change this value to set the maximum y-axis value
+                    }
+                }
+            };
+
+            // Get the canvas element and initialize the chart
+            var ctx = document.getElementById('lineChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        });
+
+    </script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
