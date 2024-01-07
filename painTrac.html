@@ -28,7 +28,7 @@
                 <div class="brand-logo">
                   <img src="assets/images/logo.svg">
                 </div>
-                <form id="pain-form" action="" method="POST"></form>>
+                <form id="pain-form" action="" method="POST">
                 <h3>Track Pain</h3>
                 <h6 class="font-weight-light">Submit you pain. It only takes a few steps</h6>
                 <br>
@@ -217,7 +217,6 @@
             var painLevel = document.getElementById("pain").value;
             var emoji = getEmoji(painLevel);
             document.getElementById("pain_label").innerText = emoji + " (" + painLevel + ")";
-            document.getElementById("pain-emoji").innerText = emoji;
         }
         function getEmoji(painLevel) {
         if (painLevel <= 2) {
@@ -231,17 +230,45 @@
         }
     }
     const form = document.getElementById("pain-form");
+    function getCheckedValues(className, fieldName) {
+            var checkboxes = document.querySelectorAll('.' + className + ' input[type="checkbox"]:checked');
+            var values = [];
 
+            checkboxes.forEach(function (checkbox) {
+                values.push(checkbox.id);
+            });
+
+            // Store values in a hidden input field with the specified name
+            document.querySelector('input[name="' + fieldName + '"]').value = JSON.stringify(values);
+
+            return values;
+        }
     form.addEventListener("submit", () => {
+        event.preventDefault();
+        
         const painFields = document.querySelectorAll(".pain-field");
         var painLevel = document.getElementById("pain").value;
+        // Get values from various form elements
+        var painLocations = getCheckedValues('pain-field', 'locations');
+        var symptoms = getCheckedValues('pain-field', 'symptoms');
+        var worsePain = getCheckedValues('pain-field', 'worse_pain');
+        var feelings = getCheckedValues('pain-field', 'feelings');
+
+        // Create formData object
+        var formData = {
+            painLevel: painLevel,
+            painLocations: painLocations,
+            symptoms: symptoms,
+            worsePain: worsePain,
+            feelings: feelings
+        };
+        // Do something with formData (e.g., send it to the server)
+
+        console.log(formData);
         // Use Fetch API to send a POST request to the server
         fetch('/submitPainLevel', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ painLevel: painLevel }),
+            body: JSON.stringify(formData),
         })
         .then(response => {
             if (!response.ok) {
@@ -258,17 +285,7 @@
             console.error('Error:', error);
             // Handle errors
         });
-        painFields.forEach(painField => {
-            const hiddenInput = painField.querySelector("input[type='hidden']");
-            const inputs = painField.querySelectorAll("input[type='checkbox']");
-            let values = [];
-
-            inputs.forEach((input, index) => {
-                if(input.checked) values.push(index);
-            });
-
-            hiddenInput.value = values.join(",");
-        });
+        
     });
     </script>
   </body>
