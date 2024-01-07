@@ -216,7 +216,9 @@
 
 
           // Fetch and display comments t9der tbdlha b post o 3tiha post id gha ma3rftch chno shhel
-          fetch(`https://your-backend-url/posts/${post.id}/comments`)
+          fetch(`https://your-backend-url/comments`, {
+            method: 'POST',
+            body: JSON.stringify(post.id),})
               .then(response => response.json())
               .then(comments => displayComments(commentsList, comments))
               .catch(error => console.error('Error fetching comments:', error));
@@ -255,7 +257,7 @@
               authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
 
               const authorName = document.createElement("span");
-              authorName.textContent = "jack Menqu";
+              authorName.textContent = comment.author;
 
               authorInfo.appendChild(authorIcon);
               authorInfo.appendChild(authorName);
