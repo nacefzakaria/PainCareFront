@@ -90,15 +90,17 @@
     
             const imageUpload = document.getElementById('imageUpload');
             const authToken = localStorage.getItem('authToken');
+
+            console.log("img",imageUpload.files[0])
             const formData = {
                 title: postTitle, 
                 description: postDescription,
-                img: imageUpload.files[0],
                 authToken: authToken,
             };
+            
     
             console.log('Form data:', formData);
-            fetch('YourServletURL', {
+            fetch('http://localhost:8080/PainCare/PublishPost', {
                 method: 'POST',
                 
                 body: JSON.stringify(formData),
@@ -111,6 +113,8 @@
             })
             .catch(error => {
                 console.error('Error submitting post:', error);
+                
+
             });
         }
     </script>
