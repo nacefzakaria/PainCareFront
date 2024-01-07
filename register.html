@@ -112,7 +112,7 @@
                 })
                 .then(responseJson => {
                     console.log('Data sent successfully:', responseJson);
-                    // Add any further logic you need after a successful response
+                    window.location.href = 'login';
                 })
                 .catch(error => {
                     console.error('Failed to send data. Error:', error);

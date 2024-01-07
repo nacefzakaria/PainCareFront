@@ -26,7 +26,9 @@
             <div class="col-lg-4 mx-auto">
               <div class="auth-form-light text-left p-5">
                 <div class="brand-logo">
-                  <img src="assets/images/logo.svg">
+                    <a href="chart">
+                        <img src="assets/images/logo.svg">
+                    </a>
                 </div>
                 <form id="pain-form" action="" method="POST">
                 <h3>Track Pain</h3>
@@ -285,7 +287,7 @@
         })
         .then(data => {
             console.log('Success:', data);
-            // You can handle the response data as needed
+            window.location.href = 'chart';
         })
         .catch(error => {
             console.error('Error:', error);
