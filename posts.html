@@ -209,7 +209,7 @@
           postTitle.textContent = post.title;
           postContent.textContent = post.content;
 
-          // Fetch and display comments for the selected post
+          // Fetch and display comments t9der tbdlha b post o 3tiha post id gha ma3rftch chno shhel
           fetch(`https://your-backend-url/posts/${post.id}/comments`)
               .then(response => response.json())
               .then(comments => displayComments(commentsList, comments))
@@ -225,9 +225,41 @@
 
           // Display each comment in the list
           comments.forEach(comment => {
-              const commentItem = document.createElement("li");
-              commentItem.textContent = comment.text;
-              commentsList.appendChild(commentItem);
+              // Create a div for each comment
+              const commentDiv = document.createElement("div");
+              commentDiv.classList.add("card-body");
+
+              // Blockquote element
+              const blockquote = document.createElement("blockquote");
+              blockquote.classList.add("blockquote");
+
+              // Author info
+              const authorInfo = document.createElement("div");
+              authorInfo.classList.add("d-flex", "align-items-center", "me-4", "text-muted", "font-weight-light");
+
+              const authorIcon = document.createElement("i");
+              authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
+
+              const authorName = document.createElement("span");
+              authorName.textContent = "jack Menqu";
+
+              authorInfo.appendChild(authorIcon);
+              authorInfo.appendChild(authorName);
+
+              // Comment text
+              const commentText = document.createElement("p");
+              commentText.classList.add("mb-0");
+              commentText.textContent = comment.text;
+
+              // Append author info and comment text to the blockquote
+              blockquote.appendChild(authorInfo);
+              blockquote.appendChild(commentText);
+
+              // Append the blockquote to the commentDiv
+              commentDiv.appendChild(blockquote);
+
+              // Append the commentDiv to the commentsList
+              commentsList.appendChild(commentDiv);
           });
       }
 
