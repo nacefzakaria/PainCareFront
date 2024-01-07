@@ -48,7 +48,7 @@
                       <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                       <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                       </h4>
-                      <h2 class="mb-5" id="testResult">Fort</h2>
+                      <h2 class="mb-5" id="testResult"></h2>
                       <h6 class="card-text">Increased by 60%</h6>
                     </div>
                   </div>
@@ -90,12 +90,10 @@
             // Function to request data from the Servlet
             function requestDataFromServlet() {
                 const authToken = localStorage.getItem('authToken');
-
+                console.log('token2:', authToken);
                 fetch('http://localhost:8080/PainCare/GetLatestPainLevels', {
                     method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + authToken,
-                    },
+                    data: authToken
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -103,38 +101,33 @@
                     const dataString = JSON.stringify(data);
                     console.log('Data as string:', dataString);
                     // Here, you can update the chart or perform other actions with the received data
+                    updateChart(data);
                 })
                 .catch(error => {
                     console.error('Error requesting data from Backend:', error);
                 });
             }
-
+            
             requestDataFromServlet();
+            
             // Another event listener that uses dataString
-            document.getElementById('useDataStringButton').addEventListener('click', function () {
-                // Use dataString as needed
-                console.log('Using dataString:', dataString);
-
-                // For example, update another chart or perform other actions with dataString
-            });
+            
 
             // Function to request test data from the Servlet and update the sales card
             function requestTestFromServlet() {
                 const authToken = localStorage.getItem('authToken');
-
-                fetch('YourTestServletURL', {
+                console.log('token1:', authToken);
+                fetch('http://localhost:8080/PainCare/DiagnosticResult', {
                     method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + authToken,
-                        'Content-Type': 'application/json',
-                    },
+                    data: authToken,
                 })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(testData => {
                     console.log('Test data received from Backend:', testData);
+                    updateSalesCard(testData);
 
                     // Call the function to update the sales card based on the fetched test data
-                    updateSalesCard(testData.result); // Assuming the property name is 'result'
+                   
                 })
                 .catch(error => {
                     console.error('Error requesting test data from Backend:', error);
@@ -145,28 +138,34 @@
             requestTestFromServlet();
 
             // Function to update the sales card based on the fetched data
-            function updateSalesCard(fetchStatus) {
+            // Function to update the sales card based on the fetched data
+            function updateSalesCard(testData) {
                 // Select the sales card element
                 const salesCard = document.querySelector('.card.bg-gradient-danger.card-img-holder.text-white');
+                const testResultElement = document.getElementById('testResult'); // Sélectionnez l'élément par son ID
+                
 
                 // Update the card based on the fetched data status
-                if (fetchStatus === 'faible') {
+                if (testData === 'Faible') {
                     salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-success');
-                    document.getElementById('testResult').innerText = 'faible';
-                } else if (fetchStatus === 'fort') {
+                    testResultElement.innerText = 'Faible'; // Mettez à jour le contenu de l'élément
+                    console.log('fetchstatus:', testData);
+                } else if (testData === 'Fort') {
                     salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-success');
-                    document.getElementById('testResult').innerText = 'fort';
-                } else if (fetchStatus === 'moyen') {
+                    testResultElement.innerText = 'Fort';
+                } else if (testData === 'Moyenne') {
                     salesCard.classList.replace('bg-gradient-danger', 'bg-gradient-info');
-                    document.getElementById('testResult').innerText = 'moyen';
+                    testResultElement.innerText = 'Moyenne';
                 }
             }
+
             
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        function updateChart(data) {
+                                
             // Sample data for the chart
-            var data = {
+            const chartData = {
                 labels: ["test1", "test2", "test3", "test4", "test5", "test6", "test7"],
                 datasets: [{
                     label: 'Pain Level',
@@ -187,9 +186,9 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1,
-                    data: [5, 8, 3, 10, 9, 4, 7], //3wwd hadi b data dyalk li khditiha mn backend
-                }]
-            };
+                    data: data, //3wwd hadi b data dyalk li khditiha mn backend
+                  }]
+              };
 
             // Configuration options
             var options = {
@@ -206,10 +205,11 @@
             var myChart = new Chart(ctx, {
                 type: 'line',
                 options: options,
-                data: data,
+                data: chartData,
                 
             });
-        });
+          }
+        
 
     </script>
     <!-- End custom js for this page -->
