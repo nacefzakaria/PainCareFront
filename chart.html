@@ -67,7 +67,7 @@
             function requestDataFromServlet() {
                 const authToken = localStorage.getItem('authToken');
 
-                fetch('/YourBackendServletURL', {
+                fetch('http://localhost:8080/PainCare/GetLatestPainLevels', {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + authToken,
