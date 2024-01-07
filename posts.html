@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Purple Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End Plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title">
+                  <span class="page-title-icon bg-gradient-primary text-white me-2">
+                    <i class="mdi mdi-home"></i>
+                  </span> Posts
+                </h3>
+                <nav aria-label="breadcrumb">
+                  <ul class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">
+                      <span></span>Recent articles <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    </li>
+                  </ul>
+                </nav>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin stretch-card">
+                <div id="postsContainer" class="card"></div>
+              </div>
+            <div  class="col-12 grid-margin stretch-card">
+              <div id="postDetails" class="card" style="display: none;">
+                
+                <div id="commentsContainer">
+                    <h3>Comments</h3>
+                    <ul id="commentsList"></ul>
+                    <textarea id="commentInput" placeholder="Add a comment"></textarea>
+                    <button onclick="addComment()">Add Comment</button>
+                </div>
+
+              </div>
+            </div>
+            </div>
+             
+            </div>
+
+          </div>
+          <!-- content-wrapper ends -->
+          
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!--js -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          fetchPosts();
+      });
+
+      function fetchPosts() {
+          // Fetch posts from the backend (replace with your actual endpoint)
+          fetch('https://your-backend-url/posts')
+              .then(response => response.json())
+              .then(posts => displayPosts(posts))
+              .catch(error => console.error('Error fetching posts:', error));
+      }
+
+      function displayPosts(posts) {
+          const postsContainer = document.getElementById("postsContainer");
+
+          // Clear existing content
+          postsContainer.innerHTML = "";
+
+          // Display each post in the container
+          posts.forEach(post => {
+            const postCard = document.createElement("div");
+            postCard.classList.add("card-body");
+
+            // Card Title
+            const cardTitle = document.createElement("h4");
+            cardTitle.classList.add("card-title");
+            cardTitle.textContent = post.title;
+
+            // Author Info
+            const authorInfo = document.createElement("div");
+            authorInfo.classList.add("d-flex", "align-items-center", "me-4", "text-muted", "font-weight-light");
+
+            const authorIcon = document.createElement("i");
+            authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
+
+            const authorName = document.createElement("span");
+            authorName.textContent = post.auther;
+
+            authorInfo.appendChild(authorIcon);
+            authorInfo.appendChild(authorName);
+
+            // Image
+            const imageContainer = document.createElement("div");
+            imageContainer.classList.add("row", "mt-3");
+
+            const imageColumn = document.createElement("div");
+            imageColumn.classList.add("col-10", "ps-1");
+
+            const postImage = document.createElement("img");
+            postImage.src = post.image;
+            postImage.classList.add("mw-100", "w-100", "rounded");
+            postImage.alt = "image";
+
+            imageColumn.appendChild(postImage);
+            imageContainer.appendChild(imageColumn);
+
+            // Append all elements to the postCard
+            postCard.appendChild(cardTitle);
+            postCard.appendChild(authorInfo);
+            postCard.appendChild(imageContainer);
+
+            // Add a click event listener to show post details
+            postCard.addEventListener("click", () => showPostDetails(post));
+
+            // Append the postCard to the postsContainer
+            postsContainer.appendChild(postCard);
+          });
+      }
+
+      function showPostDetails(post) {
+        const postDetailsContainer = document.getElementById("postDetails");
+
+        // Clear existing content
+        postDetailsContainer.innerHTML = "";
+
+        // Card Body
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
+
+        // Card Title
+        const cardTitle = document.createElement("h4");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent = post.title;
+
+        // Author Info
+        const authorInfo = document.createElement("div");
+        authorInfo.classList.add("d-flex", "align-items-center", "me-4", "text-muted", "font-weight-light");
+
+        const authorIcon = document.createElement("i");
+        authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
+
+        const authorName = document.createElement("span");
+        authorName.textContent = "jack Menqu";
+
+        authorInfo.appendChild(authorIcon);
+        authorInfo.appendChild(authorName);
+
+        // Post Content
+        const postContent = document.createElement("div");
+        postContent.classList.add("d-flex", "align-items-center", "me-8", "text-muted", "font-weight-light");
+
+        const contentParagraph = document.createElement("p");
+        contentParagraph.textContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley not only five centuries,";
+
+        postContent.appendChild(contentParagraph);
+
+        // Image
+        const imageContainer = document.createElement("div");
+        imageContainer.classList.add("row", "mt-3");
+
+        const imageColumn = document.createElement("div");
+        imageColumn.classList.add("col-10", "ps-1");
+
+        const postImage = document.createElement("img");
+        postImage.src = "assets/images/dashboard/img_3.jpg";
+        postImage.classList.add("mw-100", "w-100", "rounded");
+        postImage.alt = "image";
+
+        imageColumn.appendChild(postImage);
+        imageContainer.appendChild(imageColumn);
+
+        // Append all elements to the cardBody
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(authorInfo);
+        cardBody.appendChild(postContent);
+        cardBody.appendChild(imageContainer);
+
+        // Append the cardBody to the postDetailsContainer
+        postDetailsContainer.appendChild(cardBody);
+
+        const commentsList = document.getElementById("commentsList");
+        const commentInput = document.getElementById("commentInput");
+
+          // Display post details
+          postTitle.textContent = post.title;
+          postContent.textContent = post.content;
+
+          // Fetch and display comments for the selected post
+          fetch(`https://your-backend-url/posts/${post.id}/comments`)
+              .then(response => response.json())
+              .then(comments => displayComments(commentsList, comments))
+              .catch(error => console.error('Error fetching comments:', error));
+
+          // Show the post details container
+          document.getElementById("postDetails").style.display = "block";
+      }
+
+      function displayComments(commentsList, comments) {
+          // Clear existing comments
+          commentsList.innerHTML = "";
+
+          // Display each comment in the list
+          comments.forEach(comment => {
+              const commentItem = document.createElement("li");
+              commentItem.textContent = comment.text;
+              commentsList.appendChild(commentItem);
+          });
+      }
+
+      function addComment() {
+          const commentInput = document.getElementById("commentInput");
+          const postId = getCurrentPostId(); // Implement this function to get the current post ID
+          const commentText = commentInput.value;
+
+          // Send the comment to the backend (replace with your actual endpoint)
+          fetch(`https://your-backend-url/posts/${postId}/comments`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ text: commentText }),
+          })
+              .then(response => response.json())
+              .then(newComment => {
+                  // Display the new comment
+                  const commentsList = document.getElementById("commentsList");
+                  const commentItem = document.createElement("li");
+                  commentItem.textContent = newComment.text;
+                  commentsList.appendChild(commentItem);
+
+                  // Clear the comment input
+                  commentInput.value = '';
+              })
+              .catch(error => console.error('Error adding comment:', error));
+      }
+
+      function getCurrentPostId() {
+          // Implement this function to get the current post ID (e.g., from the displayed post)
+          // For simplicity, you can hardcode a value or use a variable.
+          return 1; // Replace with your logic
+      }
+
+    </script>
+    <!-- plugins:js -->
+    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../assets/js/off-canvas.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
