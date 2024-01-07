@@ -83,7 +83,12 @@
 
       function fetchPosts() {
           // Fetch posts from the backend (replace with your actual endpoint)
-          fetch('https://your-backend-url/posts')
+          fetch('http://localhost:8080/PainCare/GetPosts' ,{
+            method: 'POST', // Change the method to POST since your servlet handles POST requests
+            headers: {
+                
+            },
+    })
               .then(response => response.json())
               .then(posts => displayPosts(posts))
               .catch(error => console.error('Error fetching posts:', error));
@@ -126,7 +131,7 @@
             imageColumn.classList.add("col-10", "ps-1");
 
             const postImage = document.createElement("img");
-            postImage.src = post.image;
+            postImage.src = "assets/images/dashboard/img_2.jpg";
             postImage.classList.add("mw-100", "w-100", "rounded");
             postImage.alt = "image";
 
@@ -148,7 +153,7 @@
 
       function showPostDetails(post) {
         const postDetailsContainer = document.getElementById("postDetails");
-
+        console.log("showPost", post);
         // Clear existing content
         postDetailsContainer.innerHTML = "";
 
@@ -179,7 +184,7 @@
         postContent.classList.add("d-flex", "align-items-center", "me-8", "text-muted", "font-weight-light");
 
         const contentParagraph = document.createElement("p");
-        contentParagraph.textContent = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley not only five centuries,";
+        contentParagraph.textContent = post.description;
 
         postContent.appendChild(contentParagraph);
 
@@ -210,9 +215,6 @@
         const commentsList = document.getElementById("commentsList");
         const commentInput = document.getElementById("commentInput");
 
-          // Display post details
-          postTitle.textContent = post.title;
-          postContent.textContent = post.content;
 
 
           // Fetch and display comments t9der tbdlha b post o 3tiha post id gha ma3rftch chno shhel
