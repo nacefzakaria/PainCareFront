@@ -51,8 +51,13 @@
                 <div id="commentsContainer">
                     <h3>Comments</h3>
                     <ul id="commentsList"></ul>
-                    <textarea id="commentInput" placeholder="Add a comment"></textarea>
-                    <button onclick="addComment()">Add Comment</button>
+                    <div class="card-body">
+                      <div class="add-items d-flex">
+                        <input type="text" class="form-control todo-list-input" placeholder="What do you think about this?">
+                        <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"  id="addCommentButton">Add</button>
+                      </div>
+                    </div>
+
                 </div>
 
               </div>
@@ -209,12 +214,21 @@
           postTitle.textContent = post.title;
           postContent.textContent = post.content;
 
+
           // Fetch and display comments t9der tbdlha b post o 3tiha post id gha ma3rftch chno shhel
           fetch(`https://your-backend-url/posts/${post.id}/comments`)
               .then(response => response.json())
               .then(comments => displayComments(commentsList, comments))
               .catch(error => console.error('Error fetching comments:', error));
+              //make add comment work
+              const addCommentButton = document.getElementById("addCommentButton");
 
+              // Add a click event listener to the button
+              addCommentButton.addEventListener("click", function() {
+                  // Specify the id you want to pass to addComment
+                  const id = post.id; 
+                  addComment(id);
+              });
           // Show the post details container
           document.getElementById("postDetails").style.display = "block";
       }
@@ -263,9 +277,8 @@
           });
       }
 
-      function addComment() {
+      function addComment(postId) {
           const commentInput = document.getElementById("commentInput");
-          const postId = getCurrentPostId(); // Implement this function to get the current post ID
           const commentText = commentInput.value;
 
           // Send the comment to the backend (replace with your actual endpoint)
@@ -288,12 +301,6 @@
                   commentInput.value = '';
               })
               .catch(error => console.error('Error adding comment:', error));
-      }
-
-      function getCurrentPostId() {
-          // Implement this function to get the current post ID (e.g., from the displayed post)
-          // For simplicity, you can hardcode a value or use a variable.
-          return 1; // Replace with your logic
       }
 
     </script>
