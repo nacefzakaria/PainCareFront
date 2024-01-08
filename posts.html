@@ -283,6 +283,8 @@
       }
 
       function showPostDetails(post) {
+        const postsContainer = document.getElementById("postsContainer");
+        postsContainer.innerHTML = "";
         const postDetailsContainer = document.getElementById("postDetails");
         console.log("showPost", post);
         // Clear existing content
@@ -310,7 +312,9 @@
 
         const authorName = document.createElement("span");
         authorName.textContent = post.auther;
-
+        const getBack = document.createElement(i);
+        getBack.classList.add("mdi","mdi-backburger")
+        getBack.setAttribute("onclick" , "fetchPosts()")
         authorInfo.appendChild(authorIcon);
         authorInfo.appendChild(authorName);
 
