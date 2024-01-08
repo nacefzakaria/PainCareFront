@@ -46,11 +46,12 @@
                 <div id="postsContainer" class="card"></div>
               </div>
             <div  class="col-12 grid-margin stretch-card">
-              <div id="postDetails" class="card" style="display: none;">
-                
+              <div id="allPost"class="card" style="display: none;">
+                <div id="postDetails"></div>  
                 <div id="commentsContainer">
                     <h3>Comments</h3>
-                    <ul id="commentsList"></ul>
+                    <div id="commentsList"></div>
+                
                     <div class="card-body">
                       <div class="add-items d-flex">
                         <input type="text" class="form-control todo-list-input" placeholder="What do you think about this?">
@@ -174,7 +175,7 @@
         authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
 
         const authorName = document.createElement("span");
-        authorName.textContent = "jack Menqu";
+        authorName.textContent = post.auther;
 
         authorInfo.appendChild(authorIcon);
         authorInfo.appendChild(authorName);
@@ -196,7 +197,7 @@
         imageColumn.classList.add("col-10", "ps-1");
 
         const postImage = document.createElement("img");
-        postImage.src = "assets/images/dashboard/img_3.jpg";
+        postImage.src = "assets/images/dashboard/img_2.jpg";
         postImage.classList.add("mw-100", "w-100", "rounded");
         postImage.alt = "image";
 
@@ -215,32 +216,33 @@
         const commentsList = document.getElementById("commentsList");
         const commentInput = document.getElementById("commentInput");
 
-
+        console.log(post.id)
 
           // Fetch and display comments t9der tbdlha b post o 3tiha post id gha ma3rftch chno shhel
           fetch(`http://localhost:8080/PainCare/Comments`, {
             method: 'POST',
-            body: JSON.stringify(post.id),
+            body: post.id,
           
           })
               .then(response => response.json())
-              .then(comments => displayComments(commentsList, comments))
+              .then(comments => displayComments(comments)
+              
+              )
               .catch(error => console.error('Error fetching comments:', error));
-                // Show the post details container
-                var addCommentButton = document.getElementById('addCommentButton');
+              //make add comment work
+              const addCommentButton = document.getElementById("addCommentButton");
+          // Show the post details container
+          document.getElementById("allPost").style.display = "block";
+      }
 
-                  // Set the onclick attribute
-                  addCommentButton.onclick = function() {
-                    addComment(postId);
-                  };
-                document.getElementById("postDetails").style.display = "block";
-            }
-
-      function displayComments(commentsList, comments) {
+      function displayComments(comments) {
           // Clear existing comments
-          commentsList.innerHTML = "";
-
-          // Display each comment in the list
+          commentsList  = document.getElementById("commentsList");
+          if (!commentsList) {
+            console.error("Comments list element not provided");
+            return;
+        }
+              // Display each comment in the list
           comments.forEach(comment => {
               // Create a div for each comment
               const commentDiv = document.createElement("div");
