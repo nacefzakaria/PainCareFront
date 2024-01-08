@@ -226,18 +226,15 @@
               .then(response => response.json())
               .then(comments => displayComments(commentsList, comments))
               .catch(error => console.error('Error fetching comments:', error));
-              //make add comment work
-              const addCommentButton = document.getElementById("addCommentButton");
+                // Show the post details container
+                var addCommentButton = document.getElementById('addCommentButton');
 
-              // Add a click event listener to the button
-              addCommentButton.addEventListener("click", function() {
-                  // Specify the id you want to pass to addComment
-                  const id = post.id; 
-                  addComment(id);
-              });
-          // Show the post details container
-          document.getElementById("postDetails").style.display = "block";
-      }
+                  // Set the onclick attribute
+                  addCommentButton.onclick = function() {
+                    addComment(postId);
+                  };
+                document.getElementById("postDetails").style.display = "block";
+            }
 
       function displayComments(commentsList, comments) {
           // Clear existing comments
@@ -286,14 +283,17 @@
       function addComment(postId) {
           const commentInput = document.getElementById("commentInput");
           const commentText = commentInput.value;
-
+          const authToken = localStorage.getItem('authToken');
+          const credentials = {
+            authToken: authToken, 
+            commentText: commentText,
+            postId: postId
+          };
           // Send the comment to the backend (replace with your actual endpoint)
-          fetch(`https://your-backend-url/posts/${postId}/comments`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ text: commentText }),
+          fetch(`http://localhost:8080/PainCare/AddComments`, {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+          
           })
               .then(response => response.json())
               .then(newComment => {
@@ -315,7 +315,7 @@
                   authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
 
                   const authorName = document.createElement("span");
-                  authorName.textContent = "jack Menqu";
+                  authorName.textContent = comment.author;
 
                   authorInfo.appendChild(authorIcon);
                   authorInfo.appendChild(authorName);
