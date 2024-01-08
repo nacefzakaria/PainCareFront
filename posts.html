@@ -231,6 +231,9 @@
               .catch(error => console.error('Error fetching comments:', error));
               //make add comment work
               const addCommentButton = document.getElementById("addCommentButton");
+              addCommentButton.onclick = function() {
+                addComment(post.id);
+              };
           // Show the post details container
           document.getElementById("allPost").style.display = "block";
       }
