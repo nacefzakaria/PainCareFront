@@ -57,19 +57,56 @@
 
     var questions = [
         {
-            text: "How often do you exercise?",
-            choices: ["Rarely", "Occasionally", "Regularly"]
+            text: "When did you start your period?",
+            choices: ["Before the age of 11", "From the age of 11"]
         },
         {
-            text: "Do you have any dietary restrictions?",
-            choices: ["Vegetarian", "Vegan", "Gluten-Free", "No Restrictions"]
+            text: "What is the average length of your menstrual cycle?",
+            choices: ["Less than 27 days", "More than 27 days", "I am not sure"]
         },
         {
-            text: "How many hours of sleep do you get per night?",
-            choices: ["Less than 6", "6-8", "More than 8"]
+            text: "Do you have a family history of endometriosis?",
+            choices: ["Yes", "No"]
+        },
+        {
+            text: "Have you ever given birth?",
+            choices: ["Yes", "No"]
+        },
+        {
+            text: "Do you have difficulty getting pregnant?",
+            choices: ["Yes", "No"]
+        },
+        {
+            text: "What is the intensity of your abdominal/pelvic pain?",
+            choices: ["0-2", "3-5", "6-8", "9-10"]
+        },
+        {
+            text: "When do you experience abdominal or pelvic pain?",
+            choices: ["Related to menstrual periods", "Related to ovulation", "Not related to menstrual periods or ovulation"]
+        },
+        {
+            text: "What is the severity of pain during sexual intercourse?",
+            choices: ["0-2", "3-5", "6-8", "9-10"]
+        },
+        {
+            text: "What worsens your pain?",
+            choices: ["Bowel movements", "Full bladder", "Urination", "Orgasm", "Not related to anything"]
+        },
+        {
+            text: "Duration of menstrual period?",
+            choices: ["1 to 7 days", "More than 7 days"]
+        },
+        {
+            text: "Nature of menstrual periods?",
+            choices: ["Heavy", "Moderate", "Light"]
+        },
+        {
+            text: "Have you ever been a victim of physical or sexual abuse?",
+            choices: ["Yes", "No"]
         }
         // Add more questions as needed
     ];
+
 
     function loadCurrentQuestion() {
         var container = document.getElementById("question-container");
