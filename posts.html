@@ -179,10 +179,14 @@
                     <div id="commentsList"></div>
                 
                     <div class="card-body">
+                      <form>
                       <div class="add-items d-flex">
-                        <input type="text" class="form-control todo-list-input" placeholder="What do you think about this?">
-                        <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"  id="addCommentButton">Add</button>
+                        
+                        <input type="text" class="form-control todo-list-input" id="commentInput" placeholder="What do you think about this?">
+                        <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"  id="addCommentBtn">Add</button>
+                      
                       </div>
+                    </form>
                     </div>
 
                 </div>
@@ -292,6 +296,10 @@
         const cardTitle = document.createElement("h4");
         cardTitle.classList.add("card-title");
         cardTitle.textContent = post.title;
+        const hiddenDiv = document.createElement("div");
+        hiddenDiv.setAttribute("style", "display: none;"); // Set display property to "none" to hide the div
+        hiddenDiv.setAttribute("id", "postId");
+        hiddenDiv.textContent = post.id;
 
         // Author Info
         const authorInfo = document.createElement("div");
@@ -335,12 +343,10 @@
         cardBody.appendChild(authorInfo);
         cardBody.appendChild(postContent);
         cardBody.appendChild(imageContainer);
+        cardBody.appendChild(hiddenDiv);
 
         // Append the cardBody to the postDetailsContainer
         postDetailsContainer.appendChild(cardBody);
-
-        const commentsList = document.getElementById("commentsList");
-        const commentInput = document.getElementById("commentInput");
 
         console.log(post.id)
 
@@ -355,11 +361,7 @@
               
               )
               .catch(error => console.error('Error fetching comments:', error));
-              //make add comment work
-              const addCommentButton = document.getElementById("addCommentButton");
-              addCommentButton.onclick = function() {
-                addComment(post.id);
-              };
+              
           // Show the post details container
           document.getElementById("allPost").style.display = "block";
       }
@@ -411,17 +413,22 @@
           });
       }
 
-      function addComment(postId) {
+      function addComment() {
+          postId=getPostId();
+          console.log("###############");
+          console.log(postId);
           const commentInput = document.getElementById("commentInput");
           const commentText = commentInput.value;
+          console.log(commentText);
           const authToken = localStorage.getItem('authToken');
           const credentials = {
             authToken: authToken, 
             commentText: commentText,
             postId: postId
           };
+          console.log(credentials);
           // Send the comment to the backend (replace with your actual endpoint)
-          fetch(`http://localhost:8080/PainCare/AddComments`, {
+          fetch(`http://localhost:8080/PainCare/AddComment`, {
             method: 'POST',
             body: JSON.stringify(credentials),
           
@@ -429,6 +436,7 @@
               .then(response => response.json())
               .then(newComment => {
                   // Display the new comment
+                  console.log(newComment.author)
                   const commentsList = document.getElementById("commentsList");
                   // Create a div for each comment
                   const commentDiv = document.createElement("div");
@@ -446,7 +454,7 @@
                   authorIcon.classList.add("mdi", "mdi-account-outline", "icon-sm", "me-2");
 
                   const authorName = document.createElement("span");
-                  authorName.textContent = comment.author;
+                  authorName.textContent = newComment.author;
 
                   authorInfo.appendChild(authorIcon);
                   authorInfo.appendChild(authorName);
@@ -454,7 +462,9 @@
                   // Comment text
                   const commentText = document.createElement("p");
                   commentText.classList.add("mb-0");
-                  commentText.textContent = commentText;
+                  const commentInput = document.getElementById("commentInput");
+                  const commentValue = commentInput.value;
+                  commentText.textContent = commentValue;
 
                   // Append author info and comment text to the blockquote
                   blockquote.appendChild(authorInfo);
@@ -471,7 +481,24 @@
               })
               .catch(error => console.error('Error adding comment:', error));
       }
+      // Attach an event listener to the button
+    document.getElementById("addCommentBtn").addEventListener("click", function (event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
 
+        // Call the addComment function
+        addComment();
+    });
+      function getPostId() {
+        const hiddenDiv = document.getElementById("postId");
+
+        if (hiddenDiv) {
+            return hiddenDiv.textContent || hiddenDiv.innerText;
+        } else {
+            console.error("Hidden div with id 'postId' not found.");
+            return null;
+        }
+    }
     </script>
     <!-- plugins:js -->
     <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
