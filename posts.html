@@ -313,8 +313,9 @@
         const authorName = document.createElement("span");
         authorName.textContent = post.auther;
         const getBack = document.createElement(i);
-        getBack.classList.add("mdi","mdi-backburger")
-        getBack.setAttribute("onclick" , "fetchPosts()")
+        getBack.classList.add("mdi","mdi-backburger");
+        getBack.setAttribute("onclick" , "fetchPosts()");
+        authorIcon.append(getBack);
         authorInfo.appendChild(authorIcon);
         authorInfo.appendChild(authorName);
 
