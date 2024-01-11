@@ -226,7 +226,7 @@
                 title: postTitle, 
                 description: postDescription,
                 authToken: authToken,
-                image: imageUpload.files[0]
+                
             };
             
     
@@ -259,7 +259,7 @@
                 img.src = e.target.result;
 
                 // Set the path as the value of the form input
-                const imageName = getImageNameFromPath(imageUpload.value); // You can define a function to extract the name from the path
+                const imageName = getImageNameFromPath(imageUpload.value); 
                 imagePathInput.value = imageName;
             };
 
