@@ -13,6 +13,38 @@
     <!-- End Plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Check if there's an authentication token in localStorage
+        const authToken = localStorage.getItem('authToken');
+        console.log(authToken);
+        if (authToken) {
+          // Send a request to the server to fetch data based on the token
+          fetch('http://localhost:8080/PainCare/GetUsername', {
+            method: 'POST',
+            body: authToken
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to fetch data');
+              }
+              return response.text();
+            })
+            .then(data => {
+              // Handle the fetched data
+              console.log('Data fetched:', data);
+
+              // Use the data to initialize the front-end
+              // For example, update UI elements with the fetched data
+              document.getElementById('name').innerText = data;
+              document.getElementById('name1').innerText = data;
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }
+      });
+    </script>
     <!-- Layout styles -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- End layout styles -->
@@ -226,7 +258,6 @@
                 title: postTitle, 
                 description: postDescription,
                 authToken: authToken,
-                
             };
             
     
@@ -259,7 +290,7 @@
                 img.src = e.target.result;
 
                 // Set the path as the value of the form input
-                const imageName = getImageNameFromPath(imageUpload.value); 
+                const imageName = getImageNameFromPath(imageUpload.value); // You can define a function to extract the name from the path
                 imagePathInput.value = imageName;
             };
 
