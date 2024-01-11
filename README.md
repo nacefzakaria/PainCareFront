@@ -11,9 +11,9 @@ Additionally, the application incorporates genuine articles aimed at providing v
 <h1>Tools:</h1>
 
 - Bootstrap 5
-<img src="icons/bootstrap.png">
-<img src="icons/jquery.png">
-<img src="icons/java.png">
+<img style="heigh= 20px; width: 20px" src="icons/bootstrap.png">
+<img style="heigh= 20px; width: 20px" src="icons/jquery.png">
+<img style="heigh= 20px; width: 20px" src="icons/java.png">
 
 <h1>Browser Support:</h1>
 
