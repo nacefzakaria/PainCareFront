@@ -34,4 +34,4 @@ Purple Admin is designed to work flawlessly with all the latest and modern web b
 3. Run the front with simple http server 
 
 <h1>Our DB structre:</h1>
-<img src="database.png">
+<img src="database.PNG">
