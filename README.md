@@ -10,7 +10,7 @@ Additionally, the application incorporates genuine articles aimed at providing v
 
 <h1>Tools:</h1>
 
-- Bootstrap 5
+
 <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 10px;">
 <img style="heigh= 100px; width: 100px" src="icons/bootstrap.png">
 <img style="heigh= 100px; width: 100px" src="icons/jquery.png">
