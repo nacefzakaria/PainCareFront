@@ -11,10 +11,11 @@ Additionally, the application incorporates genuine articles aimed at providing v
 <h1>Tools:</h1>
 
 - Bootstrap 5
-<img src="icons/bootstrap.png">
-<img src="icons/jquery.png">
-<img src="icons/java.png">
-
+<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 10px;">
+<img style="heigh= 100px; width: 100px" src="icons/bootstrap.png">
+<img style="heigh= 100px; width: 100px" src="icons/jquery.png">
+<img style="heigh= 100px; width: 100px" src="icons/java.png">
+</div>
 <h1>Browser Support:</h1>
 
 Purple Admin is designed to work flawlessly with all the latest and modern web browsers.
