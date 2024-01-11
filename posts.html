@@ -13,12 +13,45 @@
     <!-- End Plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Check if there's an authentication token in localStorage
+        const authToken = localStorage.getItem('authToken');
+        console.log(authToken);
+        if (authToken) {
+          // Send a request to the server to fetch data based on the token
+          fetch('http://localhost:8080/PainCare/GetUsername', {
+            method: 'POST',
+            body: authToken
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to fetch data');
+              }
+              return response.text();
+            })
+            .then(data => {
+              // Handle the fetched data
+              console.log('Data fetched:', data);
+
+              // Use the data to initialize the front-end
+              // For example, update UI elements with the fetched data
+              document.getElementById('name').innerText = data;
+              document.getElementById('name1').innerText = data;
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }
+      });
+    </script>
     <!-- Layout styles -->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
   </head>
   <body>
+    
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="#"><img src="assets/images/logo.svg" alt="logo" /></a>
