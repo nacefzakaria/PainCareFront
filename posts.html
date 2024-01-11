@@ -206,7 +206,8 @@
               </div>
             <div  class="col-12 grid-margin stretch-card">
               <div id="allPost"class="card" style="display: none;">
-                <div id="postDetails"></div>  
+                <div id="postDetails"></div>
+                  
                 <div id="commentsContainer">
                     <h3>Comments</h3>
                     <div id="commentsList"></div>
@@ -224,7 +225,8 @@
 
                 </div>
 
-              </div>
+              
+            </div>  
             </div>
             </div>
              
@@ -259,10 +261,12 @@
       }
 
       function displayPosts(posts) {
+
           const postsContainer = document.getElementById("postsContainer");
 
           // Clear existing content
           postsContainer.innerHTML = "";
+          document.getElementById("allPost").style.display = "none";
 
           // Display each post in the container
           posts.forEach(post => {
@@ -295,7 +299,7 @@
             imageColumn.classList.add("col-10", "ps-1");
 
             const postImage = document.createElement("img");
-            postImage.src = "assets/images/dashboard/img_2.jpg";
+            postImage.src = post.img;
             postImage.classList.add("mw-100", "w-100", "rounded");
             postImage.alt = "image";
 
@@ -319,7 +323,10 @@
         const postsContainer = document.getElementById("postsContainer");
         postsContainer.innerHTML = "";
         const postDetailsContainer = document.getElementById("postDetails");
+        const commentsList = document.getElementById("commentsList");
+        commentsList.innerHTML = "";
         console.log("showPost", post);
+
         // Clear existing content
         postDetailsContainer.innerHTML = "";
 
@@ -327,6 +334,14 @@
         const cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
 
+        //back button
+        const getBack = document.createElement("button");
+        getBack.classList.add("btn", "btn-gradient-primary", "btn-icon");
+        const getBackIcon = document.createElement("i");
+        getBackIcon.classList.add("mdi","mdi-backburger","icon-md");
+        getBack.setAttribute("onclick" , "fetchPosts()");
+        getBack.append(getBackIcon);
+        cardBody.append(getBack);
         // Card Title
         const cardTitle = document.createElement("h4");
         cardTitle.classList.add("card-title");
@@ -345,10 +360,7 @@
 
         const authorName = document.createElement("span");
         authorName.textContent = post.auther;
-        const getBack = document.createElement(i);
-        getBack.classList.add("mdi","mdi-backburger");
-        getBack.setAttribute("onclick" , "fetchPosts()");
-        authorIcon.append(getBack);
+      
         authorInfo.appendChild(authorIcon);
         authorInfo.appendChild(authorName);
 
