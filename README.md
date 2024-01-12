@@ -35,3 +35,9 @@ Purple Admin is designed to work flawlessly with all the latest and modern web b
 
 <h1>Our DB structre:</h1>
 <img src="database.PNG">
+
+<h1>Lien vers vidéo démonstratif:</h1>
+ https://drive.google.com/drive/folders/1MR570yYV7ZH0t1pkEy7oHFmFugbv8ezE?usp=drive_link
+
+
+
